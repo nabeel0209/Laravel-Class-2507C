@@ -58,7 +58,6 @@ class studentController extends Controller
         return view('upload', compact('files'));
     }
 
-
     public function uploadFile(Request $req)
     {
 
@@ -76,6 +75,23 @@ class studentController extends Controller
     return redirect('/upload')->with('success', 'File Deleted');
 
     }
+
+    public function previewFile($fileName) {
+
+    $path = "uploads/" . $fileName;
+
+    $exists = \Storage::disk('public')->exists($path);
+
+    if (!$exists) abort(404);
+
+    $url = asset('storage/' . $path);
+    $extension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+    return view('/uploads/preview/', compact('fileName', 'url', 'extension'));
+
+
+    }
+
 
 
 
